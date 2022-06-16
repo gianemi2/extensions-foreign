@@ -135,9 +135,6 @@ export class Parser {
             const id = $('a', item).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '') ?? ''
             const title = $('a', item).attr('title') ?? ''
             const image = $('a img', item).attr('src') ?? ''
-            const vm18 = $('a .vm18content', item).text() ?? false
-
-            if (vm18) continue;
 
             results.push(
                 createMangaTile({
@@ -169,6 +166,9 @@ export class Parser {
             const title = $('a', obj).attr('title') ?? ''
             const image = $('a img', obj).attr('src') ?? ''
             const sub = $('.d-flex.flex-wrap.flex-row a', obj).first().attr('title') ?? ''
+            const vm18 = $('a .vm18content', obj).text() ?? false
+
+            if (vm18) continue;
             latestManga.push(
                 createMangaTile({
                     id,
@@ -186,6 +186,9 @@ export class Parser {
             const id = $('a', obj).attr('href')?.replace('https://www.mangaworld.in/manga/', '') ?? ''
             const image = $('.img-fluid', obj).attr('src') ?? ''
             const title = $('.name', obj).text().trim()
+            const vm18 = $('a .vm18content', item).text() ?? false
+
+            if (vm18) continue;
             if (i == 10) break
             i++
             hotTitles.push(
@@ -203,6 +206,9 @@ export class Parser {
             const id = $('a', item).attr('href')?.replace('https://www.mangaworld.in/manga/', '').slice(0, -1) ?? ''
             const image = $('a img', item).attr('src') ?? ''
             const title = $('.manga-title', item).text().trim()
+            const vm18 = $('a .vm18content', item).text() ?? false
+
+            if (vm18) continue;
             trending.push(
                 createMangaTile({
                     id,
