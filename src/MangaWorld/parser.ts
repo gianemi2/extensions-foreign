@@ -186,7 +186,7 @@ export class Parser {
             const id = $('a', obj).attr('href')?.replace('https://www.mangaworld.in/manga/', '') ?? ''
             const image = $('.img-fluid', obj).attr('src') ?? ''
             const title = $('.name', obj).text().trim()
-            const vm18 = $('a .vm18content', item).text() ?? false
+            const vm18 = $('a .vm18content', obj).text() ?? false
 
             if (vm18) continue;
             if (i == 10) break
