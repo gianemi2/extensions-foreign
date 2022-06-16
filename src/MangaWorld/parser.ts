@@ -97,7 +97,7 @@ export class Parser {
 
     parseChapterDetails($: CheerioStatic, mangaId: string, id: string): ChapterDetails {
         const pages: string[] = []
-        
+
         for (const item of $('.col-12.text-center.position-relative img').toArray()) {
             const imageUrl = $(item).attr('src')
             if (!imageUrl) continue
@@ -135,6 +135,9 @@ export class Parser {
             const id = $('a', item).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '') ?? ''
             const title = $('a', item).attr('title') ?? ''
             const image = $('a img', item).attr('src') ?? ''
+            const vm18 = $('a .vm18content', item).text() ?? false
+
+            if (vm18) continue;
 
             results.push(
                 createMangaTile({
@@ -149,23 +152,23 @@ export class Parser {
 
     parseHomeSections($: CheerioStatic, sectionCallback: (section: HomeSection) => void): void {
         const section1 = createHomeSection({ id: '1', title: 'Ultimi capitoli aggiunti', type: HomeSectionType.singleRowNormal, view_more: true })
-        const section2 = createHomeSection({ id: '2', title: 'Manga del mese',           type: HomeSectionType.singleRowNormal, })
-        const section3 = createHomeSection({ id: '3', title: 'Capitoli di tendenza',     type: HomeSectionType.singleRowNormal,})
+        const section2 = createHomeSection({ id: '2', title: 'Manga del mese', type: HomeSectionType.singleRowNormal, })
+        const section3 = createHomeSection({ id: '3', title: 'Capitoli di tendenza', type: HomeSectionType.singleRowNormal, })
 
         const latestManga: MangaTile[] = []
-        const hotTitles  : MangaTile[] = []
-        const trending   : MangaTile[] = []
+        const hotTitles: MangaTile[] = []
+        const trending: MangaTile[] = []
 
 
-        const arrLatest   = $('.col-sm-12.col-md-8.col-xl-9 .comics-grid .entry').toArray()
+        const arrLatest = $('.col-sm-12.col-md-8.col-xl-9 .comics-grid .entry').toArray()
         const arrHotTitle = $('.col-12 .top-wrapper .entry').toArray()
         const arrTrending = $('.entry.vertical').toArray()
 
         for (const obj of arrLatest) {
-            const id    = $('a', obj).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '') .slice(0, -1)?? ''
+            const id = $('a', obj).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '').slice(0, -1) ?? ''
             const title = $('a', obj).attr('title') ?? ''
             const image = $('a img', obj).attr('src') ?? ''
-            const sub   = $('.d-flex.flex-wrap.flex-row a', obj).first().attr('title') ?? ''
+            const sub = $('.d-flex.flex-wrap.flex-row a', obj).first().attr('title') ?? ''
             latestManga.push(
                 createMangaTile({
                     id,
@@ -180,7 +183,7 @@ export class Parser {
 
         let i = 0
         for (const obj of arrHotTitle) {
-            const id    = $('a', obj).attr('href')?.replace('https://www.mangaworld.in/manga/', '') ?? ''
+            const id = $('a', obj).attr('href')?.replace('https://www.mangaworld.in/manga/', '') ?? ''
             const image = $('.img-fluid', obj).attr('src') ?? ''
             const title = $('.name', obj).text().trim()
             if (i == 10) break
@@ -197,7 +200,7 @@ export class Parser {
         sectionCallback(section2)
 
         for (const item of arrTrending) {
-            const id    = $('a', item).attr('href')?.replace('https://www.mangaworld.in/manga/', '').slice(0, -1) ?? ''
+            const id = $('a', item).attr('href')?.replace('https://www.mangaworld.in/manga/', '').slice(0, -1) ?? ''
             const image = $('a img', item).attr('src') ?? ''
             const title = $('.manga-title', item).text().trim()
             trending.push(
@@ -214,12 +217,12 @@ export class Parser {
 
     parseViewMore($: CheerioStatic): MangaTile[] {
         const more: MangaTile[] = []
-        const arrLatest   = $('.col-sm-12.col-md-8.col-xl-9 .comics-grid .entry').toArray()
+        const arrLatest = $('.col-sm-12.col-md-8.col-xl-9 .comics-grid .entry').toArray()
         for (const obj of arrLatest) {
-            const id    = $('a', obj).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '').slice(0, -1) ?? ''
+            const id = $('a', obj).attr('href')?.replace(`${MW_DOMAIN}/manga/`, '').slice(0, -1) ?? ''
             const title = $('a', obj).attr('title') ?? ''
             const image = $('a img', obj).attr('src') ?? ''
-            const sub   = $('.d-flex.flex-wrap.flex-row a', obj).first().attr('title') ?? ''
+            const sub = $('.d-flex.flex-wrap.flex-row a', obj).first().attr('title') ?? ''
             more.push(
                 createMangaTile({
                     id,
